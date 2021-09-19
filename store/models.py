@@ -47,11 +47,13 @@ class Customer(models.Model):
         (MEMBERSHIP_SILVER,'Silver'),
         (MEMBERSHIP_GOLD,'Gold'),
     ]
+
     GENDER_CHOICES = [
         ('M','Male'),
         ('F','Female'),
         ('O','Others'),
     ]
+    
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     gender = models.CharField(max_length = 1,choices = GENDER_CHOICES)
