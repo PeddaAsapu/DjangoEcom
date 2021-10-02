@@ -24,6 +24,12 @@ class Collection(models.Model):
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey('Product',on_delete=models.SET_NULL,null=True,related_name='+')
 
+    def __str__(self) -> str :
+        return self.title
+
+    class Meta:
+        ordering = ['title']
+
 # Here collection and Product classes have circular dependency
 
 class Product(models.Model):
@@ -37,6 +43,14 @@ class Product(models.Model):
     collection = models.ForeignKey(Collection,on_delete=models.PROTECT)
     promotions = models.ManyToManyField(Promotion)
 
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['title']
+
+
+
 class Customer(models.Model):
     MEMBERSHIP_BRONZE = 'B'
     MEMBERSHIP_SILVER = 'S'
@@ -47,21 +61,19 @@ class Customer(models.Model):
         (MEMBERSHIP_SILVER,'Silver'),
         (MEMBERSHIP_GOLD,'Gold'),
     ]
-
-    GENDER_CHOICES = [
-        ('M','Male'),
-        ('F','Female'),
-        ('O','Others'),
-    ]
-    
+            
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    gender = models.CharField(max_length = 1,choices = GENDER_CHOICES)
+    #gender = models.CharField(max_length = 1,choices = GENDER_CHOICES)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=200)
     birth_date = models.DateField(null=True)
     membership = models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default=MEMBERSHIP_BRONZE)
 
+    def __str__(self):
+        return self.first_name 
+    
+    
 
 class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
