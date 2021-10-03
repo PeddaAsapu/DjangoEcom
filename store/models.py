@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator
 # Create your models here.
 
 #p_key = models.CharField(max_length = 10, primary_key = True)
@@ -35,13 +35,16 @@ class Collection(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=200)
     #SEO technique - slug
-    slug = models.SlugField()
-    description = models.TextField()
-    unit_price = models.DecimalField(max_digits=6,decimal_places=2)
+    slug = models.SlugField(default=None)
+    description = models.TextField(null=True, blank=True)
+    unit_price = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        validators=[MinValueValidator(1)] )
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection,on_delete=models.PROTECT)
-    promotions = models.ManyToManyField(Promotion)
+    promotions = models.ManyToManyField(Promotion, blank=True)
 
     def __str__(self):
         return self.title
@@ -91,7 +94,7 @@ class Order(models.Model):
 
     placed_at = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(max_length=1,choices = PAYMENT_STATUS_CHOICES,default = PAYMENT_STATUS_PENDING )
-    Customer = models.ForeignKey(Customer,on_delete=models.PROTECT)
+    customer = models.ForeignKey(Customer,on_delete=models.PROTECT)
 
     
 
