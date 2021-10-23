@@ -14,4 +14,4 @@ To make this project work on your local machine,
 
 **Contact :**
 - Name : Pedda Babu Asapu
-- email : peddababuasapu@gmail.com
+- email : pedda.asapu@gmail.com
